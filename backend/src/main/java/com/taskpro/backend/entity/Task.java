@@ -1,12 +1,14 @@
 package com.taskpro.backend.entity;
 
+import com.taskpro.backend.enums.TaskPriorityEnum;
+import com.taskpro.backend.enums.TaskStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -24,25 +26,27 @@ public class Task {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String status;
+    private TaskStatusEnum status;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String priority;
+    private TaskPriorityEnum priority;
 
     @Column
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updatedAt = new Timestamp(System.currentTimeMillis());
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

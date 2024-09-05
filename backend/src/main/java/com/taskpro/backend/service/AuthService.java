@@ -5,20 +5,16 @@ import com.taskpro.backend.dto.SignUpRequest;
 import com.taskpro.backend.entity.User;
 import com.taskpro.backend.repository.UserRepository;
 import com.taskpro.backend.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
-
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public User signUpUser(SignUpRequest signUpRequest) {
         userRepository.findByEmail(signUpRequest.getEmail())
