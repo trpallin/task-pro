@@ -13,7 +13,7 @@ import java.util.List;
 public class TaskService {
     private final TaskRepository taskRepository;
 
-    public void createTask(CreateTaskRequest request) {
+    public Task createTask(CreateTaskRequest request) {
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
@@ -21,7 +21,7 @@ public class TaskService {
         task.setPriority(request.getPriority());
         task.setDueDate(request.getDueDate());
 
-        taskRepository.save(task);
+        return taskRepository.save(task);
     }
 
     public List<Task> getTasksByUserId(Long userId) {

@@ -20,9 +20,9 @@ public class TaskController {
     private final UserService userService;
 
     @PostMapping()
-    public ResponseEntity<String> createTask(@RequestBody CreateTaskRequest request) {
-        taskService.createTask(request);
-        return ResponseEntity.ok("success");
+    public ResponseEntity<TaskDto> createTask(@RequestBody CreateTaskRequest request) {
+        TaskDto response = new TaskDto(taskService.createTask(request));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/tasks")
