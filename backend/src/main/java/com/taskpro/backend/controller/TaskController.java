@@ -21,7 +21,8 @@ public class TaskController {
 
     @PostMapping()
     public ResponseEntity<TaskDto> createTask(@RequestBody CreateTaskRequest request) {
-        TaskDto response = new TaskDto(taskService.createTask(request));
+        User user = userService.getCurrentUser();
+        TaskDto response = new TaskDto(taskService.createTask(user, request));
         return ResponseEntity.ok(response);
     }
 
