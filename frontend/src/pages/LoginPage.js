@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Button from "./Button";
-import styles from "./Login.module.css"
+import Button from "../components/Button";
+import styles from "./LoginPage.module.css"
 import { useNavigate } from 'react-router-dom';
 import api from "../services/api";
 
-const Login = () => {
+const LoginPage = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -30,6 +30,8 @@ const Login = () => {
         e.preventDefault();
         api.post('/auth/login', formData)
             .then(response => {
+                const token = response.data.token;
+                localStorage.setItem('token', token);
                 navigate("/main");
             })
             .catch(error => {
@@ -76,4 +78,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;

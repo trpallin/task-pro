@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import styles from './SignUp.module.css';
-import Button from "./Button";
+import styles from './SignUpPage.module.css';
+import Button from "../components/Button";
 import {useNavigate} from "react-router-dom";
 import api from "../services/api";
 
-const SignUp = () => {
+const SignUpPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -108,4 +108,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default SignUpPage;
