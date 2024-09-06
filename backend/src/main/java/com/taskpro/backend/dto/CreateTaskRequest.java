@@ -17,4 +17,5 @@ public class CreateTaskRequest {
     @NotNull
     private TaskPriorityEnum priority;
     private LocalDate dueDate;
+    private Long parentTaskId;
 }

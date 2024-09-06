@@ -26,6 +26,14 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskDto> getTaskDetail(@PathVariable Long taskId) {
+        User user = userService.getCurrentUser();
+        Task task = taskService.getTaskByIdAndUserId(taskId, user.getId());
+        TaskDto taskDto = new TaskDto(task);
+        return ResponseEntity.ok(taskDto);
+    }
+
     @GetMapping("/tasks")
     public ResponseEntity<List<TaskDto>> getTasksOfUser() {
         User user = userService.getCurrentUser();
