@@ -1,0 +1,21 @@
+.taskItem {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.taskItem:hover {
+    background-color: #e0e0e0;
+}
+
+.taskTitle {
+    font-weight: bold;
+}
+
+.taskStatus {
+    color: #007bff;
+}

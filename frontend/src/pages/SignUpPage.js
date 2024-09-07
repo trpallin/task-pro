@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import styles from './SignUpPage.module.css';
+import React, { useState } from "react";
+import styles from "./SignUpPage.module.css";
 import Button from "../components/Button";
 import {useNavigate} from "react-router-dom";
 import api from "../services/api";
+import ConfirmModal from "../components/ConfirmModal";
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const SignUpPage = () => {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -31,7 +33,12 @@ const SignUpPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setShowModal(true);
+    };
+
+    const confirmSubmit = () => {
         const { name, email, password, confirmPassword } = formData;
+        setShowModal(false);
 
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match!');
@@ -46,7 +53,11 @@ const SignUpPage = () => {
             .catch((error) => {
                 setErrorMessage(error.response?.data?.message || 'Error occurred during sign up.');
             });
-    };
+    }
+
+    const cancelSubmit = () => {
+        setShowModal(false);
+    }
 
     return (
         <div className={styles.signupContainer}>
@@ -104,6 +115,14 @@ const SignUpPage = () => {
                     <Button onClick={handleLoginClick}>Go to Login</Button>
                 </div>
             </form>
+
+            {showModal && (
+                <ConfirmModal
+                    message="Are you sure you want to sign up with this information?"
+                    onConfirm={confirmSubmit}
+                    onCancel={cancelSubmit}
+                />
+            )}
         </div>
     );
 };

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Button from "../components/Button";
-import styles from "./LoginPage.module.css"
+import Button from '../components/Button';
+import styles from './LoginPage.module.css'
 import { useNavigate } from 'react-router-dom';
-import api from "../services/api";
+import api from '../services/api';
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ const LoginPage = () => {
             .then(response => {
                 const token = response.data.token;
                 localStorage.setItem('token', token);
-                navigate("/main");
+                navigate('/main');
             })
             .catch(error => {
                 setErrorMessage(error.response?.data?.message || 'Error logging in');
