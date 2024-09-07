@@ -13,9 +13,3 @@ h2 {
     font-size: 1.5rem;
     color: #333;
 }
-
-.taskList {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
