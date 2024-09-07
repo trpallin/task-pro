@@ -39,7 +39,7 @@ const CreateTaskForm = ({ onCreateTask }) => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className={styles.taskForm}>
+            <div className={styles.taskForm}>
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>
                         <label htmlFor="title">Title</label>
@@ -104,10 +104,10 @@ const CreateTaskForm = ({ onCreateTask }) => {
 
                 <div className={styles.formRowButton}>
                     <div className={styles.formGroupButton}>
-                        <Button variant="confirm" type="submit">Create Task</Button>
+                        <Button variant="confirm" onClick={handleSubmit}>Create Task</Button>
                     </div>
                 </div>
-            </form>
+            </div>
 
             {showModal && (
                 <ConfirmModal
