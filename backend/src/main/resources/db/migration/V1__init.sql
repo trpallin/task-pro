@@ -8,13 +8,14 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS tasks (
     id BIGSERIAL PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    description TEXT,
+    title VARCHAR(300) NOT NULL,
+    description TEXT NOT NULL,
     status VARCHAR(50) NOT NULL,
     priority VARCHAR(50) NOT NULL,
     due_date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by BIGINT REFERENCES users(id),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP,
+    created_by BIGINT NOT NULL REFERENCES users(id),
     parent_task_id BIGINT REFERENCES tasks(id)
 );

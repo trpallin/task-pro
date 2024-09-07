@@ -29,7 +29,7 @@ public class TaskController {
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> getTask(@PathVariable Long taskId) {
         User user = userService.getCurrentUser();
-        Task task = taskService.getTaskByIdAndUserId(taskId, user.getId());
+        Task task = taskService.getTask(taskId, user.getId());
         TaskDto taskDto = new TaskDto(task);
         return ResponseEntity.ok(taskDto);
     }
@@ -40,6 +40,13 @@ public class TaskController {
         Task task = taskService.updateTask(taskId, user.getId(), request);
         TaskDto taskDto = new TaskDto(task);
         return ResponseEntity.ok(taskDto);
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
+        User user = userService.getCurrentUser();
+        taskService.softDeleteTask(taskId, user.getId());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/tasks")

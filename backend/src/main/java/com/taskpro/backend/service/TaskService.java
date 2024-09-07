@@ -7,6 +7,7 @@ import com.taskpro.backend.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,14 +34,15 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task getTaskByIdAndUserId(Long taskId, Long userId) {
+    public Task getTask(Long taskId, Long userId) {
         return taskRepository.findById(taskId)
-                .filter(task -> task.getCreatedBy().getId().equals(userId))
+                .filter(task -> task.getCreatedBy().getId().equals(userId) && task.getDeletedAt() == null)
                 .orElseThrow(() -> new SecurityException("Unauthorized or task not found"));
     }
 
     public Task updateTask(Long taskId, Long userId, CreateTaskRequest request) {
         Task existingTask = taskRepository.findById(taskId)
+                .filter(task -> task.getDeletedAt() == null)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
         if (!existingTask.getCreatedBy().getId().equals(userId)) {
@@ -56,9 +58,19 @@ public class TaskService {
         return taskRepository.save(existingTask);
     }
 
+    public void softDeleteTask(Long taskId, Long userId) {
+        Task task = taskRepository.findByIdAndCreatedBy_Id(taskId, userId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found or you are not authorized"));
+        if (task.getDeletedAt() == null) {
+            task.setDeletedAt(LocalDateTime.now());
+            taskRepository.save(task);
+        }
+    }
+
     public List<Task> getTopTasksByUserId(Long userId) {
         return taskRepository.findAllByCreatedBy_Id(userId)
-                .stream().filter(task -> task.getParentTask() == null)
+                .stream()
+                .filter(task -> task.getParentTask() == null && task.getDeletedAt() == null)
                 .toList();
     }
 }
