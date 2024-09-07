@@ -6,7 +6,7 @@ import TaskDashboard from "../components/TaskDashboard";
 import api from "../services/api";
 import CreateTaskForm from "../components/CreateTaskForm";
 import Button from "../components/Button";
-import useAuth from "../hooks/useAuth";
+import {useAuth} from "../hooks/authHooks";
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -39,10 +39,6 @@ const MainPage = () => {
         setShowForm(!showForm);
     };
 
-    const handleTaskClick = (taskId) => {
-        navigate(`/task/${taskId}`);
-    };
-
     return (
         <div className={styles.mainPage}>
             <Header title="Main Page" />
@@ -57,7 +53,7 @@ const MainPage = () => {
                     <CreateTaskForm onCreateTask={handleCreateTask} />
                 )}
 
-                <TaskDashboard tasks={tasks} onTaskClick={handleTaskClick} />
+                <TaskDashboard tasks={tasks} />
             </div>
         </div>
     );

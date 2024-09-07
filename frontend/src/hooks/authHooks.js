@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const useAuth = () => {
+export const useAuth = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,4 +12,13 @@ const useAuth = () => {
     }, [navigate]);
 };
 
-export default useAuth;
+export const useRedirectToMainIfAuth = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/main');
+        }
+    }, [navigate]);
+};

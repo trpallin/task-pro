@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
-import useAuth from "../hooks/useAuth";
+import {useAuth} from "../hooks/authHooks";
 import styles from "./TaskDetailPage.module.css"
 import TaskDetail from "../components/TaskDetail";
 import Header from "../components/Header";

@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import {useNavigate} from "react-router-dom";
 import api from "../services/api";
 import ConfirmModal from "../components/ConfirmModal";
+import {useRedirectToMainIfAuth} from "../hooks/authHooks";
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
@@ -12,12 +13,12 @@ const SignUpPage = () => {
         password: '',
         confirmPassword: '',
     });
-
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
-
     const navigate = useNavigate();
+
+    useRedirectToMainIfAuth();
 
     const handleLoginClick = () => {
         navigate('/login');

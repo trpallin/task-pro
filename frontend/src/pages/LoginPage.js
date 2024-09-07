@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from '../components/Button';
 import styles from './LoginPage.module.css'
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import {useRedirectToMainIfAuth} from "../hooks/authHooks";
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+
+    useRedirectToMainIfAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,8 +22,6 @@ const LoginPage = () => {
             [name]: value
         });
     };
-
-    const navigate = useNavigate();
 
     const handleSignUpClick = () => {
         navigate('/signup');
