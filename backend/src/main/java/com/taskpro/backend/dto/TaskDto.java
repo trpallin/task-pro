@@ -19,6 +19,7 @@ public class TaskDto {
     private LocalDate dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long parentTaskId;
     private List<TaskDto> subtasks;
 
     public TaskDto(Task task) {
@@ -30,6 +31,12 @@ public class TaskDto {
         this.dueDate = task.getDueDate();
         this.createdAt = task.getCreatedAt();
         this.updatedAt = task.getUpdatedAt();
+
+        if (task.getParentTask() != null) {
+            this.parentTaskId = task.getParentTask().getId();
+        } else {
+            this.parentTaskId = null;
+        }
 
         if (task.getSubtasks() != null) {
             this.subtasks = task.getSubtasks().stream()
