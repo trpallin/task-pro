@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import api from "../services/api";
 import {useAuth} from "../hooks/authHooks";
 import styles from "./TaskDetailPage.module.css"
@@ -7,12 +7,14 @@ import TaskDetail from "../components/TaskDetail";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import TaskForm from "../components/TaskForm";
+import ConfirmModal from "../components/ConfirmModal";
 
 const TaskDetailPage = () => {
     const { id } = useParams();
     const [taskDetail, setTaskDetail] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const [editMode, setEditMode] = useState(false);
+    const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false);
     const defaultTaskData = {
         title: '',
         description: '',
@@ -49,6 +51,7 @@ const TaskDetailPage = () => {
                 console.error('Error fetching task details:', error);
             });
     }, [id]);
+    const navigate = useNavigate();
 
     if (!taskDetail) {
         return;
@@ -85,6 +88,16 @@ const TaskDetailPage = () => {
             });
     };
 
+    const handleDeleteTask = () => {
+        api.delete(`/task/${taskDetail.id}`)
+            .then(() => {
+                navigate('/main');  // Redirect the user back to the main page after deletion
+            })
+            .catch((error) => {
+                console.error("Error deleting task:", error);
+            });
+    };
+
     const toggleForm = () => {
         setShowForm(!showForm);
     };
@@ -96,6 +109,10 @@ const TaskDetailPage = () => {
             setUpdateTaskData(null);
         }
         setEditMode(!editMode);
+    }
+
+    const toggleShowDeleteTaskModal = () => {
+        setShowDeleteTaskModal(!showDeleteTaskModal);
     }
 
     return (
@@ -112,6 +129,9 @@ const TaskDetailPage = () => {
                         <Button onClick={toggleEditMode} variant="normal">
                             {editMode ? 'Cancel' : 'Edit Task'}
                         </Button>
+                    )}
+                    {!(editMode || showForm) && (
+                        <Button onClick={toggleShowDeleteTaskModal} variant="cancel">Delete Task</Button>
                     )}
                 </div>
 
@@ -139,6 +159,15 @@ const TaskDetailPage = () => {
                     <TaskDetail task={taskDetail} />
                 )}
             </div>
+
+            {showDeleteTaskModal && (
+                <ConfirmModal
+                    message="Are you sure you want to delete this task?"
+                    onConfirm={handleDeleteTask}
+                    onCancel={toggleShowDeleteTaskModal}
+                    warning={true}
+                />
+            )}
         </div>
     );
 };

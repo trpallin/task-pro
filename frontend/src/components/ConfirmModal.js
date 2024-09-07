@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import styles from './ConfirmModal.module.css';
 import Button from "./Button";
 
-const ConfirmModal = ({ onConfirm, onCancel, message }) => {
+const ConfirmModal = ({ onConfirm, onCancel, message, warning = false }) => {
     useEffect(() => {
         const handleEscape = (event) => {
             if (event.key === 'Escape') {
@@ -21,7 +21,11 @@ const ConfirmModal = ({ onConfirm, onCancel, message }) => {
             <div className={styles.modalContent}>
                 <p>{message}</p>
                 <div className={styles.buttonGroup}>
-                    <Button onClick={onConfirm} variant="confirm">Confirm</Button>
+                    {warning ? (
+                        <Button onClick={onConfirm} variant="cancel">Delete</Button>
+                    ) : (
+                        <Button onClick={onConfirm} variant="confirm">Confirm</Button>
+                    )}
                     <Button onClick={onCancel} variant="normal">Cancel</Button>
                 </div>
             </div>
