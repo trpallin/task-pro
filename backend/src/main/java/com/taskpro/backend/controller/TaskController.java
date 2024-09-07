@@ -37,7 +37,7 @@ public class TaskController {
     @GetMapping("/tasks")
     public ResponseEntity<List<TaskDto>> getTasksOfUser() {
         User user = userService.getCurrentUser();
-        List<Task> tasks = taskService.getTasksByUserId(user.getId());
+        List<Task> tasks = taskService.getTopTasksByUserId(user.getId());
         List<TaskDto> taskDtos = tasks.stream()
                 .map(TaskDto::new)
                 .toList();

@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class TaskDto {
@@ -18,6 +19,7 @@ public class TaskDto {
     private LocalDate dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<TaskDto> subtasks;
 
     public TaskDto(Task task) {
         this.id = task.getId();
@@ -28,5 +30,11 @@ public class TaskDto {
         this.dueDate = task.getDueDate();
         this.createdAt = task.getCreatedAt();
         this.updatedAt = task.getUpdatedAt();
+
+        if (task.getSubtasks() != null) {
+            this.subtasks = task.getSubtasks().stream()
+                    .map(TaskDto::new)
+                    .toList();
+        }
     }
 }

@@ -39,7 +39,9 @@ public class TaskService {
                 .orElseThrow(() -> new SecurityException("Unauthorized or task not found"));
     }
 
-    public List<Task> getTasksByUserId(Long userId) {
-        return taskRepository.findAllByCreatedBy_Id(userId);
+    public List<Task> getTopTasksByUserId(Long userId) {
+        return taskRepository.findAllByCreatedBy_Id(userId)
+                .stream().filter(task -> task.getParentTask() == null)
+                .toList();
     }
 }

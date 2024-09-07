@@ -59,5 +59,5 @@ public class Task {
     private Task parentTask;
 
     @OneToMany(mappedBy = "parentTask", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> subTasks;
+    private List<Task> subtasks;
 }

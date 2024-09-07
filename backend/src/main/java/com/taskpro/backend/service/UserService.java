@@ -22,7 +22,7 @@ public class UserService {
             if (principal instanceof UserDetails) {
                 String username = ((UserDetails) principal).getUsername();
 
-                return userRepository.findByEmail(username) // or findByUsername(username)
+                return userRepository.findByEmail(username)
                         .orElseThrow(() -> new RuntimeException("User not found"));
             }
         }
