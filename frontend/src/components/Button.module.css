@@ -16,6 +16,16 @@
     background-color: #e57a2d;
 }
 
+.normal {
+    background-color: #f8f9fa;
+    color: #343a40;
+    border: 1px solid #ced4da;
+}
+
+.normal:hover {
+    background-color: #e9ecef;
+}
+
 .confirm {
     background-color: #28a745;
     color: white;
