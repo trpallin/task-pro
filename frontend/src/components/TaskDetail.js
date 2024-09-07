@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './TaskDetail.module.css';
+import TaskList from "./TaskList";
 
 const TaskDetail = ({ task }) => {
     return (
@@ -15,13 +16,7 @@ const TaskDetail = ({ task }) => {
             <div className={styles.subtaskSection}>
                 <h3>Subtasks</h3>
                 {task.subtasks && task.subtasks.length > 0 ? (
-                    <ul className={styles.subtaskList}>
-                        {task.subtasks.map((subtask) => (
-                            <li key={subtask.id} className={styles.subtaskItem}>
-                                <p>{subtask.title} - {subtask.status}</p>
-                            </li>
-                        ))}
-                    </ul>
+                    <TaskList tasks={task.subtasks} />
                 ) : (
                     <p>No subtasks available</p>
                 )}
