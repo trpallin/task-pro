@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import Header from "../components/Header";
 import styles from "./MainPage.module.css";
-import TaskDashboard from "../components/TaskDashboard";
 import api from "../services/api";
 import CreateTaskForm from "../components/CreateTaskForm";
 import Button from "../components/Button";
 import {useAuth} from "../hooks/authHooks";
+import TaskList from "../components/TaskList";
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -53,7 +53,10 @@ const MainPage = () => {
                     <CreateTaskForm onCreateTask={handleCreateTask} />
                 )}
 
-                <TaskDashboard tasks={tasks} />
+                <div className={styles.dashboard}>
+                    <h2>Your Tasks</h2>
+                    <TaskList tasks={tasks}></TaskList>
+                </div>
             </div>
         </div>
     );
