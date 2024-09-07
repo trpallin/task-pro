@@ -1,0 +1,59 @@
+.taskFormContainer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.formRow {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+}
+
+.formRowButton {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.formGroup {
+    flex: 1;
+}
+
+.formGroupButton {
+
+}
+
+.formGroup label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.formGroup textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+}

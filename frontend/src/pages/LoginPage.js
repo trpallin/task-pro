@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import Button from "./Button";
-import styles from "./Login.module.css"
+import React, {useState} from 'react';
+import Button from '../components/Button';
+import styles from './LoginPage.module.css'
 import { useNavigate } from 'react-router-dom';
-import api from "../services/api";
+import api from '../services/api';
+import {useRedirectToMainIfAuth} from "../hooks/authHooks";
 
-const Login = () => {
+const LoginPage = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+
+    useRedirectToMainIfAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,8 +23,6 @@ const Login = () => {
         });
     };
 
-    const navigate = useNavigate();
-
     const handleSignUpClick = () => {
         navigate('/signup');
     };
@@ -30,7 +31,9 @@ const Login = () => {
         e.preventDefault();
         api.post('/auth/login', formData)
             .then(response => {
-                navigate("/main");
+                const token = response.data.token;
+                localStorage.setItem('token', token);
+                navigate('/main');
             })
             .catch(error => {
                 setErrorMessage(error.response?.data?.message || 'Error logging in');
@@ -76,4 +79,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;

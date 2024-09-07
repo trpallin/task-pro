@@ -1,0 +1,21 @@
+.taskDetailPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.content {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    position: relative;
+}
+
+.buttonContainer {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    margin-bottom: 20px;
+    z-index: 1;
+}

@@ -1,0 +1,57 @@
+.taskDetailContainer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.taskDetailContent {
+    margin-top: 60px;
+    line-height: 1.6;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+}
+
+.subtaskSection {
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.subtaskList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.subtaskItem {
+    background-color: #e0f7fa; /* Light blue background for subtasks */
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtaskItem:hover {
+    background-color: #b2ebf2; /* Darker shade of light blue on hover */
+}
+
+.subtaskItem p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
