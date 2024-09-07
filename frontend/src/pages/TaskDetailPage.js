@@ -91,7 +91,12 @@ const TaskDetailPage = () => {
     const handleDeleteTask = () => {
         api.delete(`/task/${taskDetail.id}`)
             .then(() => {
-                navigate('/main');  // Redirect the user back to the main page after deletion
+                setShowDeleteTaskModal(false);
+                if (taskDetail.parentTaskId) {
+                    navigate(`/task/${taskDetail.parentTaskId}`);
+                } else {
+                    navigate('/main');
+                }
             })
             .catch((error) => {
                 console.error("Error deleting task:", error);
@@ -162,7 +167,7 @@ const TaskDetailPage = () => {
 
             {showDeleteTaskModal && (
                 <ConfirmModal
-                    message="Are you sure you want to delete this task?"
+                    message="Are you sure you want to delete this task? All associated subtasks will be deleted as well."
                     onConfirm={handleDeleteTask}
                     onCancel={toggleShowDeleteTaskModal}
                     warning={true}
