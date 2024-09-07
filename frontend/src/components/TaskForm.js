@@ -1,44 +1,24 @@
-import React, { useState } from 'react';
-import styles from './CreateTaskForm.module.css';
+import React from "react";
+import styles from "./TaskForm.module.css";
 import Button from "./Button";
 import ConfirmModal from "./ConfirmModal";
+import {useState} from "react";
 
-const CreateTaskForm = ({ onCreateTask }) => {
-    const [taskData, setTaskData] = useState({
-        title: '',
-        description: '',
-        status: 'PENDING',
-        priority: 'LOW',
-        dueDate: ''
-    });
-
+const TaskForm = ({ taskData, onCreateTask, handleChange, buttonLabel, confirmMessage }) => {
     const [showModal, setShowModal] = useState(false);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setTaskData({
-            ...taskData,
-            [name]: value
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         setShowModal(true);
-    }
-
+    };
     const confirmSubmit = () => {
         onCreateTask(taskData);
         setShowModal(false);
-        setTaskData({ title: '', description: '', status: '', priority: '', dueDate: '' });
     };
-
     const cancelSubmit = () => {
         setShowModal(false);
-    }
+    };
 
     return (
-        <div>
+        <>
             <div className={styles.taskForm}>
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>
@@ -104,20 +84,20 @@ const CreateTaskForm = ({ onCreateTask }) => {
 
                 <div className={styles.formRowButton}>
                     <div className={styles.formGroupButton}>
-                        <Button variant="confirm" onClick={handleSubmit}>Create Task</Button>
+                        <Button onClick={handleSubmit} variant="confirm">{buttonLabel}</Button>
                     </div>
                 </div>
             </div>
 
             {showModal && (
                 <ConfirmModal
-                    message="Are you sure you want to create this task?"
+                    message={confirmMessage}
                     onConfirm={confirmSubmit}
                     onCancel={cancelSubmit}
                 />
             )}
-        </div>
+        </>
     );
 };
 
-export default CreateTaskForm;
+export default TaskForm;

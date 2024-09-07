@@ -6,12 +6,28 @@ import styles from "./TaskDetailPage.module.css"
 import TaskDetail from "../components/TaskDetail";
 import Header from "../components/Header";
 import Button from "../components/Button";
-import CreateTaskForm from "../components/CreateTaskForm";
+import TaskForm from "../components/TaskForm";
 
 const TaskDetailPage = () => {
     const { id } = useParams();
     const [taskDetail, setTaskDetail] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const defaultTaskData = {
+        title: '',
+        description: '',
+        status: 'PENDING',
+        priority: 'LOW',
+        dueDate: ''
+    };
+    const [taskData, setTaskData] = useState(defaultTaskData);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setTaskData({
+            ...taskData,
+            [name]: value
+        });
+    };
 
     useAuth();
     useEffect(() => {
@@ -62,7 +78,13 @@ const TaskDetailPage = () => {
                 </div>
 
                 {showForm && (
-                    <CreateTaskForm onCreateTask={handleCreateSubTask} />
+                    <TaskForm
+                        taskData={taskData}
+                        onCreateTask={handleCreateSubTask}
+                        handleChange={handleChange}
+                        buttonLabel="Create Subtask"
+                        confirmMessage="Are you sure you want to create subtask?"
+                    />
                 )}
 
                 <TaskDetail task={taskDetail} />

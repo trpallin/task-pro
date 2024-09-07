@@ -3,15 +3,31 @@ import {useNavigate} from "react-router-dom";
 import Header from "../components/Header";
 import styles from "./MainPage.module.css";
 import api from "../services/api";
-import CreateTaskForm from "../components/CreateTaskForm";
 import Button from "../components/Button";
 import {useAuth} from "../hooks/authHooks";
 import TaskList from "../components/TaskList";
+import TaskForm from "../components/TaskForm";
 
 const MainPage = () => {
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const defaultTaskData = {
+        title: '',
+        description: '',
+        status: 'PENDING',
+        priority: 'LOW',
+        dueDate: ''
+    };
+    const [taskData, setTaskData] = useState(defaultTaskData);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setTaskData({
+            ...taskData,
+            [name]: value
+        });
+    };
 
     useAuth();
     useEffect(() => {
@@ -24,10 +40,11 @@ const MainPage = () => {
             });
     }, [navigate]);
 
-    const handleCreateTask = (newTask) => {
-        api.post('/task', newTask)
+    const handleCreateTask = () => {
+        api.post('/task', taskData)
             .then((response) => {
                 setShowForm(false);
+                setTaskData(defaultTaskData);
                 setTasks(prevTasks => [...prevTasks, response.data]);
             })
             .catch((error) => {
@@ -50,7 +67,13 @@ const MainPage = () => {
                 </div>
 
                 {showForm && (
-                    <CreateTaskForm onCreateTask={handleCreateTask} />
+                    <TaskForm
+                        taskData={taskData}
+                        onCreateTask={handleCreateTask}
+                        handleChange={handleChange}
+                        buttonLabel="Create Task"
+                        confirmMessage="Are you sure you want to create task?"
+                    />
                 )}
 
                 <div className={styles.dashboard}>
