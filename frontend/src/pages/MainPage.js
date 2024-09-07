@@ -62,7 +62,7 @@ const MainPage = () => {
             <div className={styles.content}>
                 <div className={styles.buttonContainer}>
                     <Button onClick={toggleForm} variant="normal">
-                        {showForm ? 'Cancel' : 'Create New Task'}
+                        {showForm ? 'Cancel' : 'New Task'}
                     </Button>
                 </div>
 
@@ -72,7 +72,8 @@ const MainPage = () => {
                         onCreateTask={handleCreateTask}
                         handleChange={handleChange}
                         buttonLabel="Create Task"
-                        confirmMessage="Are you sure you want to create task?"
+                        confirmMessage="Are you sure you want to create a task?"
+                        title="Create New Task"
                     />
                 )}
 

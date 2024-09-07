@@ -12,6 +12,7 @@ const TaskDetailPage = () => {
     const { id } = useParams();
     const [taskDetail, setTaskDetail] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const defaultTaskData = {
         title: '',
         description: '',
@@ -19,12 +20,21 @@ const TaskDetailPage = () => {
         priority: 'LOW',
         dueDate: ''
     };
-    const [taskData, setTaskData] = useState(defaultTaskData);
+    const [createTaskData, setCreateTaskData] = useState(defaultTaskData);
+    const [updateTaskData, setUpdateTaskData] = useState(null);
 
-    const handleChange = (e) => {
+    const handleCreateTaskDataChange = (e) => {
         const { name, value } = e.target;
-        setTaskData({
-            ...taskData,
+        setCreateTaskData({
+            ...createTaskData,
+            [name]: value
+        });
+    };
+
+    const handleUpdateTaskDataChange = (e) => {
+        const { name, value } = e.target;
+        setUpdateTaskData({
+            ...updateTaskData,
             [name]: value
         });
     };
@@ -46,14 +56,14 @@ const TaskDetailPage = () => {
 
     const handleCreateSubTask = () => {
         const subTask = {
-            ...taskData,
+            ...createTaskData,
             parentTaskId: taskDetail.id
         };
 
         api.post('/task', subTask)
             .then((response) => {
                 setShowForm(false);
-                setTaskData(defaultTaskData);
+                setCreateTaskData(defaultTaskData);
                 setTaskDetail(prevDetail => ({
                     ...prevDetail,
                     subtasks: [...prevDetail.subtasks, response.data]
@@ -64,31 +74,70 @@ const TaskDetailPage = () => {
             });
     };
 
+    const handleUpdateTask = () => {
+        api.put(`/task/${taskDetail.id}`, updateTaskData)
+            .then((response) => {
+                setTaskDetail(response.data);
+                setEditMode(false);
+            })
+            .catch((error) => {
+                console.error("Error updating task:", error);
+            });
+    };
+
     const toggleForm = () => {
         setShowForm(!showForm);
     };
+
+    const toggleEditMode = () => {
+        if (!editMode) {
+            setUpdateTaskData({ ...taskDetail });
+        } else {
+            setUpdateTaskData(null);
+        }
+        setEditMode(!editMode);
+    }
 
     return (
         <div className={styles.taskDetailPage}>
             <Header title="Task Detail" backButtonText="Back to the Main" backButtonPath="/main" />
             <div className={styles.content}>
                 <div className={styles.buttonContainer}>
-                    <Button onClick={toggleForm} variant="normal">
-                        {showForm ? 'Cancel' : 'Create New Sub Task'}
-                    </Button>
+                    {!editMode && (
+                        <Button onClick={toggleForm} variant="normal">
+                            {showForm ? 'Cancel' : 'New Subtask'}
+                        </Button>
+                    )}
+                    {!showForm && (
+                        <Button onClick={toggleEditMode} variant="normal">
+                            {editMode ? 'Cancel' : 'Edit Task'}
+                        </Button>
+                    )}
                 </div>
 
                 {showForm && (
                     <TaskForm
-                        taskData={taskData}
+                        taskData={createTaskData}
                         onCreateTask={handleCreateSubTask}
-                        handleChange={handleChange}
-                        buttonLabel="Create Subtask"
-                        confirmMessage="Are you sure you want to create subtask?"
+                        handleChange={handleCreateTaskDataChange}
+                        buttonLabel="Create"
+                        confirmMessage="Are you sure you want to create a subtask?"
+                        title="Create New Subtask"
                     />
                 )}
 
-                <TaskDetail task={taskDetail} />
+                {editMode ? (
+                    <TaskForm
+                        taskData={updateTaskData}
+                        onCreateTask={handleUpdateTask}
+                        handleChange={handleUpdateTaskDataChange}
+                        buttonLabel="Edit"
+                        confirmMessage="Are you sure you want to update this task?"
+                        title="Edit Task"
+                    />
+                ) : (
+                    <TaskDetail task={taskDetail} />
+                )}
             </div>
         </div>
     );

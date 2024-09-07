@@ -4,7 +4,7 @@ import Button from "./Button";
 import ConfirmModal from "./ConfirmModal";
 import {useState} from "react";
 
-const TaskForm = ({ taskData, onCreateTask, handleChange, buttonLabel, confirmMessage }) => {
+const TaskForm = ({ taskData, onCreateTask, handleChange, buttonLabel, confirmMessage, title }) => {
     const [showModal, setShowModal] = useState(false);
     const handleSubmit = () => {
         setShowModal(true);
@@ -20,6 +20,7 @@ const TaskForm = ({ taskData, onCreateTask, handleChange, buttonLabel, confirmMe
     return (
         <>
             <div className={styles.taskForm}>
+                <h2>{title}</h2>
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>
                         <label htmlFor="title">Title</label>
