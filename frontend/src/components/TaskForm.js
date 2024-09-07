@@ -10,7 +10,7 @@ const TaskForm = ({ taskData, onCreateTask, handleChange, buttonLabel, confirmMe
         setShowModal(true);
     };
     const confirmSubmit = () => {
-        onCreateTask(taskData);
+        onCreateTask();
         setShowModal(false);
     };
     const cancelSubmit = () => {

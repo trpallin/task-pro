@@ -44,15 +44,16 @@ const TaskDetailPage = () => {
         return;
     }
 
-    const handleCreateSubTask = (newTask) => {
+    const handleCreateSubTask = () => {
         const subTask = {
-            ...newTask,
+            ...taskData,
             parentTaskId: taskDetail.id
         };
 
         api.post('/task', subTask)
             .then((response) => {
                 setShowForm(false);
+                setTaskData(defaultTaskData);
                 setTaskDetail(prevDetail => ({
                     ...prevDetail,
                     subtasks: [...prevDetail.subtasks, response.data]
