@@ -27,9 +27,17 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<TaskDto> getTaskDetail(@PathVariable Long taskId) {
+    public ResponseEntity<TaskDto> getTask(@PathVariable Long taskId) {
         User user = userService.getCurrentUser();
         Task task = taskService.getTaskByIdAndUserId(taskId, user.getId());
+        TaskDto taskDto = new TaskDto(task);
+        return ResponseEntity.ok(taskDto);
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId, @RequestBody CreateTaskRequest request) {
+        User user = userService.getCurrentUser();
+        Task task = taskService.updateTask(taskId, user.getId(), request);
         TaskDto taskDto = new TaskDto(task);
         return ResponseEntity.ok(taskDto);
     }

@@ -39,6 +39,23 @@ public class TaskService {
                 .orElseThrow(() -> new SecurityException("Unauthorized or task not found"));
     }
 
+    public Task updateTask(Long taskId, Long userId, CreateTaskRequest request) {
+        Task existingTask = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+
+        if (!existingTask.getCreatedBy().getId().equals(userId)) {
+            throw new SecurityException("Not allowed to update this task");
+        }
+
+        existingTask.setTitle(request.getTitle());
+        existingTask.setDescription(request.getDescription());
+        existingTask.setStatus(request.getStatus());
+        existingTask.setPriority(request.getPriority());
+        existingTask.setDueDate(request.getDueDate());
+
+        return taskRepository.save(existingTask);
+    }
+
     public List<Task> getTopTasksByUserId(Long userId) {
         return taskRepository.findAllByCreatedBy_Id(userId)
                 .stream().filter(task -> task.getParentTask() == null)
