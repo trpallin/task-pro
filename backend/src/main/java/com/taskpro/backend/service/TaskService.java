@@ -62,8 +62,20 @@ public class TaskService {
         Task task = taskRepository.findByIdAndCreatedBy_Id(taskId, userId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found or you are not authorized"));
         if (task.getDeletedAt() == null) {
-            task.setDeletedAt(LocalDateTime.now());
+            softDeleteTaskRecursively(task, LocalDateTime.now());
             taskRepository.save(task);
+        }
+    }
+
+    private void softDeleteTaskRecursively(Task task, LocalDateTime deletionTime) {
+        task.setDeletedAt(deletionTime);
+
+        if (task.getSubtasks() != null && !task.getSubtasks().isEmpty()) {
+            for (Task subtask : task.getSubtasks()) {
+                if (subtask.getDeletedAt() == null) {
+                    softDeleteTaskRecursively(subtask, deletionTime);
+                }
+            }
         }
     }
 
