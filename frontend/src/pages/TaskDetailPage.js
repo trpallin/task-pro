@@ -118,7 +118,7 @@ const TaskDetailPage = () => {
                 {showForm && (
                     <TaskForm
                         taskData={createTaskData}
-                        onCreateTask={handleCreateSubTask}
+                        onConfirm={handleCreateSubTask}
                         handleChange={handleCreateTaskDataChange}
                         buttonLabel="Create"
                         confirmMessage="Are you sure you want to create a subtask?"
@@ -129,7 +129,7 @@ const TaskDetailPage = () => {
                 {editMode ? (
                     <TaskForm
                         taskData={updateTaskData}
-                        onCreateTask={handleUpdateTask}
+                        onConfirm={handleUpdateTask}
                         handleChange={handleUpdateTaskDataChange}
                         buttonLabel="Edit"
                         confirmMessage="Are you sure you want to update this task?"

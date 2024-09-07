@@ -4,13 +4,13 @@ import Button from "./Button";
 import ConfirmModal from "./ConfirmModal";
 import {useState} from "react";
 
-const TaskForm = ({ taskData, onCreateTask, handleChange, buttonLabel, confirmMessage, title }) => {
+const TaskForm = ({ taskData, onConfirm, handleChange, buttonLabel, confirmMessage, title }) => {
     const [showModal, setShowModal] = useState(false);
     const handleSubmit = () => {
         setShowModal(true);
     };
     const confirmSubmit = () => {
-        onCreateTask();
+        onConfirm();
         setShowModal(false);
     };
     const cancelSubmit = () => {

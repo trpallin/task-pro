@@ -69,7 +69,7 @@ const MainPage = () => {
                 {showForm && (
                     <TaskForm
                         taskData={taskData}
-                        onCreateTask={handleCreateTask}
+                        onConfirm={handleCreateTask}
                         handleChange={handleChange}
                         buttonLabel="Create Task"
                         confirmMessage="Are you sure you want to create a task?"
