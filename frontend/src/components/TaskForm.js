@@ -19,7 +19,7 @@ const TaskForm = ({ taskData, onCreateTask, handleChange, buttonLabel, confirmMe
 
     return (
         <>
-            <div className={styles.taskForm}>
+            <div className={styles.taskFormContainer}>
                 <h2>{title}</h2>
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>

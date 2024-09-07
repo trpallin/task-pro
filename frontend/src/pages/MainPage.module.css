@@ -9,12 +9,15 @@
     width: 100%;
     max-width: 1200px;
     margin-top: 20px;
+    position: relative;
 }
 
 .buttonContainer {
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    top: 20px;
+    right: 0;
     margin-bottom: 20px;
+    z-index: 1;
 }
 
 .dashboard {
