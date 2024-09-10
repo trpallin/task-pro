@@ -6,6 +6,7 @@ import com.taskpro.backend.entity.User;
 import com.taskpro.backend.repository.UserRepository;
 import com.taskpro.backend.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,11 @@ public class AuthService {
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(encodedPassword);
 
-        return userRepository.save(user);
+        try {
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Email already exists.");
+        }
     }
 
     public String authenticateUser(LoginRequest loginRequest) {

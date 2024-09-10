@@ -6,6 +6,7 @@ import com.taskpro.backend.entity.User;
 import com.taskpro.backend.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,8 +41,9 @@ public class TaskService {
                 .orElseThrow(() -> new SecurityException("Unauthorized or task not found"));
     }
 
+    @Transactional
     public Task updateTask(Long taskId, Long userId, CreateTaskRequest request) {
-        Task existingTask = taskRepository.findById(taskId)
+        Task existingTask = taskRepository.findByIdForUpdate(taskId)
                 .filter(task -> task.getDeletedAt() == null)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
 
@@ -58,8 +60,9 @@ public class TaskService {
         return taskRepository.save(existingTask);
     }
 
+    @Transactional
     public void softDeleteTask(Long taskId, Long userId) {
-        Task task = taskRepository.findByIdAndCreatedBy_Id(taskId, userId)
+        Task task = taskRepository.findByIdAndCreatedBy_IdForUpdate(taskId, userId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found or you are not authorized"));
         if (task.getDeletedAt() == null) {
             softDeleteTaskRecursively(task, LocalDateTime.now());
