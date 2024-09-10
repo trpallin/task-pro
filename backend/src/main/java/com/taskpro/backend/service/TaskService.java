@@ -4,6 +4,8 @@ import com.taskpro.backend.dto.CreateTaskRequest;
 import com.taskpro.backend.entity.Task;
 import com.taskpro.backend.entity.User;
 import com.taskpro.backend.repository.TaskRepository;
+import com.taskpro.backend.repository.UserRepository;
+import com.taskpro.backend.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
-    public Task createTask(User user, CreateTaskRequest request) {
+    @Transactional
+    public Task createTask(CreateTaskRequest request) {
+        Long userId = SecurityUtil.getCurrentUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
@@ -35,14 +42,16 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task getTask(Long taskId, Long userId) {
+    public Task getTask(Long taskId) {
+        Long userId = SecurityUtil.getCurrentUserId();
         return taskRepository.findById(taskId)
                 .filter(task -> task.getCreatedBy().getId().equals(userId) && task.getDeletedAt() == null)
                 .orElseThrow(() -> new SecurityException("Unauthorized or task not found"));
     }
 
     @Transactional
-    public Task updateTask(Long taskId, Long userId, CreateTaskRequest request) {
+    public Task updateTask(Long taskId, CreateTaskRequest request) {
+        Long userId = SecurityUtil.getCurrentUserId();
         Task existingTask = taskRepository.findByIdForUpdate(taskId)
                 .filter(task -> task.getDeletedAt() == null)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
@@ -61,7 +70,8 @@ public class TaskService {
     }
 
     @Transactional
-    public void softDeleteTask(Long taskId, Long userId) {
+    public void softDeleteTask(Long taskId) {
+        Long userId = SecurityUtil.getCurrentUserId();
         Task task = taskRepository.findByIdAndCreatedBy_IdForUpdate(taskId, userId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found or you are not authorized"));
         if (task.getDeletedAt() == null) {

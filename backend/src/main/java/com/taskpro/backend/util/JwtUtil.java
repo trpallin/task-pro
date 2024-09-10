@@ -28,25 +28,25 @@ public class JwtUtil {
         return EXPIRATION_TIME;
     }
 
-    public String generateToken(String email) {
-        return generateToken(new HashMap<>(), email);
+    public String generateToken(Long userId) {
+        return generateToken(new HashMap<>(), userId);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, String email) {
-        return buildToken(extraClaims, email);
+    public String generateToken(Map<String, Object> extraClaims, Long userId) {
+        return buildToken(extraClaims, userId);
     }
 
-    private String buildToken(Map<String, Object> extraClaims, String email) {
+    private String buildToken(Map<String, Object> extraClaims, Long userId) {
         return Jwts.builder()
                 .claims(extraClaims)
-                .subject(email)
+                .subject(userId.toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key)
                 .compact();
     }
 
-    public String extractEmail(String token) {
+    public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -55,9 +55,9 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    public Boolean validateToken(String token, String email) {
-        final String extractedEmail = extractEmail(token);
-        return (extractedEmail.equals(email) && !isTokenExpired(token));
+    public Boolean validateToken(String token, String userId) {
+        final String extractedUserId = extractUserId(token);
+        return (extractedUserId.equals(userId) && !isTokenExpired(token));
     }
 
     private Boolean isTokenExpired(String token) {

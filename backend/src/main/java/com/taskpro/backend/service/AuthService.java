@@ -38,7 +38,7 @@ public class AuthService {
     public String authenticateUser(LoginRequest loginRequest) {
         return userRepository.findByEmail(loginRequest.getEmail())
                 .filter(user -> isPasswordValid(loginRequest, user))
-                .map(user -> jwtUtil.generateToken(loginRequest.getEmail()))
+                .map(user -> jwtUtil.generateToken(user.getId()))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
     }
 
