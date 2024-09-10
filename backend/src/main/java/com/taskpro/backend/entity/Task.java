@@ -39,10 +39,10 @@ public class Task {
     @Column
     private LocalDate dueDate;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @Column
