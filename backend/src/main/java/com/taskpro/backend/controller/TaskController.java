@@ -1,10 +1,8 @@
 package com.taskpro.backend.controller;
 
-import com.taskpro.backend.dto.CreateTaskRequest;
+import com.taskpro.backend.dto.TaskRequest;
 import com.taskpro.backend.dto.TaskDto;
-import com.taskpro.backend.entity.Task;
 import com.taskpro.backend.service.TaskService;
-import com.taskpro.backend.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,39 +15,30 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
 
-    @PostMapping()
-    public ResponseEntity<TaskDto> createTask(@RequestBody CreateTaskRequest request) {
-        TaskDto response = new TaskDto(taskService.createTask(request));
-        return ResponseEntity.ok(response);
+    @PostMapping
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskRequest request) {
+        return ResponseEntity.ok(taskService.createTask(request));
     }
 
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> getTask(@PathVariable Long taskId) {
-        Task task = taskService.getTask(taskId);
-        TaskDto taskDto = new TaskDto(task);
-        return ResponseEntity.ok(taskDto);
+        return ResponseEntity.ok(taskService.getTask(taskId));
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId, @RequestBody CreateTaskRequest request) {
-        Task task = taskService.updateTask(taskId, request);
-        TaskDto taskDto = new TaskDto(task);
-        return ResponseEntity.ok(taskDto);
+    public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId, @RequestBody TaskRequest request) {
+        return ResponseEntity.ok(taskService.updateTask(taskId, request));
     }
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
-        taskService.softDeleteTask(taskId);
+        taskService.deleteTask(taskId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/tasks")
-    public ResponseEntity<List<TaskDto>> getTasksOfUser() {
-        Long userId = SecurityUtil.getCurrentUserId();
-        List<Task> tasks = taskService.getTopTasksByUserId(userId);
-        List<TaskDto> taskDtos = tasks.stream()
-                .map(TaskDto::new)
-                .toList();
+    @GetMapping("/tasks/{projectId}")
+    public ResponseEntity<List<TaskDto>> getRootTasksOfProject(@PathVariable Long projectId) {
+        List<TaskDto> taskDtos = taskService.getRootTasksByProjectId(projectId);
         return ResponseEntity.ok(taskDtos);
     }
 }
