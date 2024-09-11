@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ProjectCollaborator {
     @EmbeddedId
-    private ProjectCollaboratorId id;
+    private ProjectCollaboratorId id = new ProjectCollaboratorId();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("projectId")

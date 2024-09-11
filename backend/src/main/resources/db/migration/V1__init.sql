@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS projects (
 CREATE TABLE IF NOT EXISTS project_collaborators (
     project_id BIGINT NOT NULL REFERENCES projects(id),
     user_id BIGINT NOT NULL REFERENCES users(id),
-    role VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    role VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (project_id, user_id)
 );
 
