@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class TaskDto {
     private Long id;
+    private Long projectId;
     private String title;
     private String description;
     private TaskStatusEnum status;
@@ -24,6 +25,7 @@ public class TaskDto {
 
     public TaskDto(Task task) {
         this.id = task.getId();
+        this.projectId = task.getProject().getId();
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.status = task.getStatus();
