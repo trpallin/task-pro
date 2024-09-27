@@ -60,7 +60,8 @@ const TaskDetailPage = () => {
     const handleCreateSubTask = () => {
         const subTask = {
             ...createTaskData,
-            parentTaskId: taskDetail.id
+            parentTaskId: taskDetail.id,
+            projectId: taskDetail.projectId,
         };
 
         api.post('/task', subTask)
@@ -95,7 +96,7 @@ const TaskDetailPage = () => {
                 if (taskDetail.parentTaskId) {
                     navigate(`/task/${taskDetail.parentTaskId}`);
                 } else {
-                    navigate('/main');
+                    navigate(`/project/${taskDetail.projectId}`);
                 }
             })
             .catch((error) => {
@@ -105,6 +106,10 @@ const TaskDetailPage = () => {
 
     const toggleForm = () => {
         setShowForm(!showForm);
+    };
+
+    const setShowFormTrue = () => {
+        setShowForm(true);
     };
 
     const toggleEditMode = () => {
@@ -161,7 +166,7 @@ const TaskDetailPage = () => {
                         title="Edit Task"
                     />
                 ) : (
-                    <TaskDetail task={taskDetail} />
+                    <TaskDetail task={taskDetail} onClickSubtask={setShowFormTrue} />
                 )}
             </div>
 
