@@ -3,7 +3,6 @@ package com.taskpro.backend.dto;
 import lombok.Data;
 
 @Data
-public class LoginResponse {
+public class TokenResponse {
     private String token;
-    private long expiresIn;
 }
