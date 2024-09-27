@@ -68,9 +68,8 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    private Boolean validateToken(String token, String userId, Key key) {
-        final String extractedUserId = extractUserId(token, key);
-        return (extractedUserId.equals(userId) && !isTokenExpired(token, key));
+    public Boolean validateAccessToken(String token) {
+        return !isTokenExpired(token, accessKey);
     }
 
     private Boolean isTokenExpired(String token, Key key) {

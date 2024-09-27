@@ -7,10 +7,8 @@ import com.taskpro.backend.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +45,7 @@ public class AuthController {
                 .body(response);
     }
 
-    @PostMapping("/token/refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refreshToken(HttpServletRequest request) {
         String refreshToken = authService.getRefreshTokenFromCookie(request);
         String accessToken = authService.refreshAccessToken(refreshToken);
