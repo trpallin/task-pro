@@ -21,13 +21,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    ResponseEntity<Void> signUpUser(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<Void> signUpUser(@RequestBody SignUpRequest signUpRequest) {
         authService.signUpUser(signUpRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/login")
-    ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
         String accessToken = authService.createAccessToken(loginRequest);
         String refreshToken = authService.createRefreshToken(loginRequest);
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
