@@ -1,0 +1,37 @@
+<configuration>
+    <property name="LOG_PATH" value="./log"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- log file path -->
+        <file>${LOG_PATH}/application.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- log file name pattern -->
+            <fileNamePattern>${LOG_PATH}/taskpro.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <!-- max file size (ex 10MB) -->
+            <maxFileSize>10MB</maxFileSize>
+
+            <!-- maximum number of log file to store -->
+            <maxHistory>7</maxHistory>
+
+            <!-- log file size limit -->
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

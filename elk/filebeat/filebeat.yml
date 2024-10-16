@@ -1,0 +1,12 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/task-pro/*.log
+  scan_frequency: 5s
+  clean_inactive: 72h
+  clean_removed: true
+  ignore_older: 48h
+
+output.logstash:
+  hosts: ["logstash:5044"]
