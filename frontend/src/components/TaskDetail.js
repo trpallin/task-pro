@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './TaskDetail.module.css';
 import TaskList from "./TaskList";
+import Button from "./Button";
 
-const TaskDetail = ({ task }) => {
+const TaskDetail = ({ task, onClickSubtask }) => {
     return (
         <div className={styles.taskDetailContainer}>
             <div className={styles.taskDetailContent}>
@@ -18,7 +19,14 @@ const TaskDetail = ({ task }) => {
                 {task.subtasks && task.subtasks.length > 0 ? (
                     <TaskList tasks={task.subtasks} />
                 ) : (
-                    <p>No subtasks available</p>
+                    <div>
+                        <p>No subtasks</p>
+                        <div className={styles.subtaskButtonContainer}>
+                            <Button onClick={onClickSubtask} variant="confirm">
+                                New Subtask
+                            </Button>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

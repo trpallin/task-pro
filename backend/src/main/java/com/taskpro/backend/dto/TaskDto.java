@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class TaskDto {
     private Long id;
+    private Long projectId;
     private String title;
     private String description;
     private TaskStatusEnum status;
@@ -20,10 +21,11 @@ public class TaskDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long parentTaskId;
-    private List<TaskDto> subtasks;
+    private List<TaskSummaryDto> subtasks;
 
     public TaskDto(Task task) {
         this.id = task.getId();
+        this.projectId = task.getProject().getId();
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.status = task.getStatus();
@@ -40,7 +42,7 @@ public class TaskDto {
 
         if (task.getSubtasks() != null) {
             this.subtasks = task.getSubtasks().stream()
-                    .map(TaskDto::new)
+                    .map(TaskSummaryDto::new)
                     .toList();
         }
     }

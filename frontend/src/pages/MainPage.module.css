@@ -35,3 +35,23 @@ h2 {
     font-size: 1.5rem;
     color: #333;
 }
+
+.projectList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.projectItem {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.projectItem:hover {
+    background-color: #e0e0e0;
+}

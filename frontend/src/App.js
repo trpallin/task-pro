@@ -5,6 +5,7 @@ import SignUpPage from "./pages/SignUpPage";
 import MainPage from "./pages/MainPage";
 import Logout from "./components/Logout";
 import TaskDetailPage from "./pages/TaskDetailPage";
+import ProjectDetailPage from "./pages/ProjectDetailPage";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/main" element={<MainPage />} />
+                <Route path="/project/:projectId" element={<ProjectDetailPage />} />
                 <Route path="/task/:id" element={<TaskDetailPage />} />
             </Routes>
         </Router>

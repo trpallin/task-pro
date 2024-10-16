@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +20,10 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
 
     @Column(nullable = false, length = 100)
     private String title;
@@ -39,14 +42,11 @@ public class Task {
     @Column
     private LocalDate dueDate;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @Column
-    private LocalDateTime deletedAt;
 
     @PrePersist
     protected void onCreate() {
@@ -60,14 +60,13 @@ public class Task {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
-    private User createdBy;
+    @JoinColumn(name = "creator_user_id", nullable = false)
+    private User creatorUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_task_id")
     private Task parentTask;
 
     @OneToMany(mappedBy = "parentTask", cascade = CascadeType.ALL, orphanRemoval = true)
-    @SQLRestriction("deleted_at IS NULL")
     private List<Task> subtasks;
 }

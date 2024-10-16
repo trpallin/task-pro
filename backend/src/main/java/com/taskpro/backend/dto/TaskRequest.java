@@ -8,7 +8,9 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class CreateTaskRequest {
+public class TaskRequest {
+    @NotNull
+    private Long projectId;
     @NotNull
     private String title;
     private String description;
